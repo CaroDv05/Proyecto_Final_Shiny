@@ -100,3 +100,48 @@ ui <- dashboardPage(
                          downloadButton("datos_gapminder_variables", "Descargar Datos")),
                 
                 
+                
+              ), #tabsetpanel
+              
+      ),
+      
+      tabItem(
+        
+        tabName = "gráficos",
+        
+        h2("Gráficos"),
+        
+      
+        tabsetPanel(
+          
+          tabPanel("Gráfico 1", 
+                   
+                   h3("Visualización de gráfico: Continente y PIB"),
+                   
+                   plotlyOutput("plot")),
+          
+          tabPanel("Gráfico 2", 
+                   
+                   h3("Visualización de gráfico: Total población mundial"),
+                   
+                   
+                   plotlyOutput('ploty')
+          ),
+          
+          
+          tabPanel("Gráfico 3", 
+                   
+                   h3("Visualización de gráfico: Continentes y Poblaciónn"),
+                   
+                   plotlyOutput("plop")),
+          
+        ) #tabsetpanel
+        
+      ) 
+      
+    ),
+  ),
+  
+)
+                
+                
