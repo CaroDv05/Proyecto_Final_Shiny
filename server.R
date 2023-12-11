@@ -101,5 +101,136 @@ server <- function(input, output, session) {
   output$texto_3 <- renderText((
     paste("Variable seleccionada:", "-",input$variables)))
   
+  #SHINYALERT
+  
+  observeEvent(c(input$filtrar,input$filtro,input$filtrador,input$filtre), {
+    
+    shinyalert( "Mostrando la información seleccionada", type = "success")
+  })
+  
+  
+  #CHARTS
+  
+  
+  minder <- gapminder
+  minder <- na.omit(minder) 
+  
+  output$plot <- renderPlotly({
+    plot_ly(minder, 
+            x = ~pib_per_capita, 
+            y = ~continente, 
+            type = 'bar', 
+            mode = 'markers') |>  
+      layout(title = "Continente con mayor producto interno bruto",
+             plot_bgcolor = "black")
+  })
+  
+  gap <- gapminder
+  gap <- na.omit(gap) 
+  
+  output$plop <- renderPlotly({
+    plot_ly(gap, 
+            x = ~continente, 
+            y = ~poblacion, 
+            type = 'bar', 
+            mode = 'markers') |>  
+      layout(title = "Continentes con mayor población",
+             plot_bgcolor = "black")
+  })
+  
+  
+  
+  mind <- gapminder
+  mind <- na.omit(mind) 
+  
+  output$ploty <- renderPlotly({
+    plot_ly(mind, 
+            x = ~anio, 
+            y = ~poblacion, 
+            type = 'scatter', 
+            mode = 'markers') |>  
+      layout(title = "Población mundial total según años",
+             plot_bgcolor = "black")
+  })
+  
+  
+  
+  #DOWNLOAD BOTTON
+  
+  # País seleccionado // Botón de descarga
+  
+  output$datos_gapminder <- downloadHandler(
+    filename = function() {
+      paste("datos_gapminder_",input$pais, ".csv", sep = "")
+    },
+    content = function(file) {
+      
+      datos_filtrados <- gapminder[
+        
+        gapminder$anio == input$anio & gapminder$continente == input$continente, ]
+      
+      write.csv(datos_filtrados, file)
+    }
+  )
+  
+  
+  # Países según el continente // Botón de descarga
+  
+  output$datos_gapminder_continente <- downloadHandler(
+    filename = function() {
+      paste("datos_gapminder_", input$paiis, ".csv", sep = "")
+    },
+    content = function(file) {
+      
+      datos_filtrados <- gapminder[
+        
+        gapminder$anio == input$anio & gapminder$continente == input$continente, ]
+      
+      write.csv(datos_filtrados, file)
+    }
+  )
+  
+  
+  
+  # Todos los países del continente // Botón de descarga
+  
+  output$datos_gapminder_paises_continente <- downloadHandler(
+    filename = function() {
+      paste("datos_gapminder_continente_", input$continente, ".csv", sep = "")
+    },
+    content = function(file) {
+      
+      datos_filtrados <- gapminder[
+        
+        gapminder$anio == input$anio & gapminder$continente == input$continente, ]
+      
+      write.csv(datos_filtrados, file)
+    }
+  )
+  
+  
+  
+  
+  output$datos_gapminder_variables <- downloadHandler(
+    filename = function() {
+      paste("datos_gapminder_variables_", input$variables, ".csv", sep = "")
+    },
+    content = function(file) {
+      
+      datos_filtrados <- gapminder[
+        
+        gapminder$anio == input$anio & gapminder$continente == input$continente, ]
+      
+      write.csv(datos_filtrados, file)
+    }
+  )
+  
+  
+  
+}
+
+
+
+shinyApp(ui, server)
   
   
