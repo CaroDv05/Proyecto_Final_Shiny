@@ -101,3 +101,5 @@ server <- function(input, output, session) {
   output$texto_3 <- renderText((
     paste("Variable seleccionada:", "-",input$variables)))
   
+  
+  
